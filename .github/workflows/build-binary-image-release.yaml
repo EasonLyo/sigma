@@ -1,0 +1,34 @@
+name: SIGMA release with maven use graal VM.
+
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  build:
+    name: SIGMA on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, windows-latest, ubuntu-latest ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          native-image-job-reports: 'true'
+          cache: maven
+
+      - name: Build with Maven
+        run: |
+          mvn -B package --file pom.xml
+          ./target
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: sigma-${{ matrix.os }}
+          path: sigma*

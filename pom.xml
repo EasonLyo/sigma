@@ -241,7 +241,7 @@
           </execution>
         </executions>
         <configuration>
-          <skip>true</skip>
+          <skip>false</skip>
           <imageName>${project.name}</imageName>    <!--(2)-->
           <mainClass>${launcher.class}</mainClass>  <!--(3)-->
           <buildArgs>
