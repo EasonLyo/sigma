@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Properties>
+    <property name="CONSOLE_PATTERN_LAYOUT">%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %highlight{%-5level}{DEBUG=green} %magenta{%-5pid{-}} --- [%15.15thread] %cyan{%-40.40logger{39}} : %msg%n%xEx</property>
+    <property name="APP_FILE_PATTERN_LAYOUT">%d %p %c{1.} [%t] %m%n</property>
+  </Properties>
+
+  <!--日志输出器-->
+  <Appenders>
+    <!--控制台输出器-->
+    <Console name="CONSOLE_APPENDER" target="SYSTEM_OUT">
+      <PatternLayout pattern="${CONSOLE_PATTERN_LAYOUT}" charset="UTF-8"/>
+    </Console>
+
+    <!--运行日志输出器-->
+    <RollingRandomAccessFile name="APP_FILE_APPENDER" fileName="logs/app.log" filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+      <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+      <PatternLayout pattern="${APP_FILE_PATTERN_LAYOUT}" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="250 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="7"/>
+    </RollingRandomAccessFile>
+
+    <!--访问日志输出器-->
+    <RollingRandomAccessFile name="ACCESS_FILE_APPENDER" fileName="logs/access.log" filePattern="logs/$${date:yyyy-MM}/access-%d{MM-dd-yyyy}-%i.log.gz">
+      <PatternLayout pattern="%m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="250 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="7"/>
+    </RollingRandomAccessFile>
+  </Appenders>
+
+  <Loggers>
+    <!--运行日志-->
+    <asyncRoot level="DEBUG">
+      <!--控制台日志,线上环境关闭-->
+      <AppenderRef ref="CONSOLE_APPENDER"/>
+      <!--运行日志-->
+      <AppenderRef ref="APP_FILE_APPENDER"/>
+    </asyncRoot>
+
+    <asyncLogger name="io.vertx.ext.web.handler.impl.LoggerHandlerImpl" level="INFO" additivity="false">
+      <!--访问日志-->
+      <AppenderRef ref="ACCESS_FILE_APPENDER"/>
+    </asyncLogger>
+
+  </Loggers>
+</Configuration>

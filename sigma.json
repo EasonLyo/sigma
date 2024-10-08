@@ -1,0 +1,181 @@
+{
+  "proxy-server": {
+    "http": {
+      "id": "http-proxy-server",
+      "server-id": "http-proxy-server",
+      "desc": "A http reverse proxy server.",
+      "port": 80,
+      "plugin": {
+        "static-resources": {
+          "enable": false,
+          "root-path": "/Users/liuyc/Documents/sigma/src/main/resources"
+        },
+        "gzip": {
+          "enable": false,
+          "compression-level": 6,
+          "window-bits": 15,
+          "mem-level": 8
+        }
+      }
+    },
+    "https": {
+      "id": "https-proxy-server",
+      "server-id": "https-proxy-server",
+      "desc": "A https reverse proxy server.",
+      "enable": false,
+      "port": 443,
+      "ssl": {
+        "type": "pem",
+        "keyPath": "/Users/liuyc/Documents/sigma/cart/localhost+2-key.pem",
+        "certPath": "/Users/liuyc/Documents/sigma/cart/localhost+2.pem"
+      },
+      "plugin": {
+        "static-resources": {
+          "enable": false,
+          "root-path": "/Users/liuyc/Documents/sigma/src/main/resources"
+        },
+        "gzip": {
+          "enable": false,
+          "compression-level": 6,
+          "window-bits": 15,
+          "mem-level": 8
+        }
+      }
+    }
+  },
+  "proxy-client": {
+    "max-pool-size-per-server": 512,
+    "ssl": false
+  },
+  "router": [
+    {
+      "id": "router-first",
+      "enable": true,
+      "proxy-server-id": "http-proxy-server",
+      "desc": "Router is a group of route, the route list of router can have common virtual-host, metadata, errorhandler, failureHandler or contextHandler.",
+      "route": [
+        {
+          "id": "router-first-route-first",
+          "enable": true,
+          "desc": "a example about route bind on http-proxy-server",
+          "path": "/test/*",
+          "allow-method": [],
+          "consumes": [],
+          "produces": [],
+          "proxy-pass-id": "proxy-pass-1"
+        }
+      ],
+      "plugin": {
+        "sub-router": [
+          {
+            "id": "router-first-route-first",
+            "enable": false,
+            "desc": "a example about route bind on http-proxy-server",
+            "path": "/sub/*",
+            "allow-method": [],
+            "consumes": [],
+            "produces": [],
+            "proxy-pass-id": "proxy-pass-2"
+          }
+        ],
+        "metadata": [{"name": "router-first"}],
+        "log-config": {
+          "enable": false,
+          "formatter": "DEFAULT",
+          "log-file": "./router-first.log"
+        }
+      }
+    },
+    {
+      "enable": false,
+      "id": "router-second",
+      "proxy-server-id": "https-proxy-server",
+      "allow-forward": "NONE",
+      "virtual-host": "localhost",
+      "desc": "Another router bind in https proxy server.",
+      "route": [
+        {
+          "enable": false,
+          "id": "router-first-route-first",
+          "desc": "a example about route bind on http-proxy-server",
+          "path": "/*",
+          "allow-method": [],
+          "consumes": [],
+          "produces": [],
+          "proxy-pass-id": "proxy-pass-3"
+        }
+      ],
+      "plugin": {
+        "sub-router-id": "sub-router-first",
+        "metadata": [{"name": "router-first"}],
+        "log-config": {
+          "enable": false,
+          "log-file": "./router-first.log"
+        },
+        "cors": {
+          "enable": false,
+          "allow-origins": ["http://localhost", "https://localhost"],
+          "allow-methods": ["GET"],
+          "allow-credentials": false
+        },
+        "hsts": {
+          "enable": false,
+          "max-age": 15768000,
+          "include-sub-domains": false
+        },
+        "csp": {
+          "enable": false,
+          "directive": [{"name": "default-src", "value": "self"}],
+          "reportOnly": false
+        },
+        "x-frame": "NONE"
+      }
+    }
+  ],
+  "proxy-pass": [
+    {
+      "id": "proxy-pass-1",
+      "upstream-id": "upstream-static-service-1",
+      "plugin": {
+        "rewrite-path": {
+          "enable": true,
+          "regexp": "/test/(?<segment>.*)",
+          "replacement": "/${segment}"
+        }
+      }
+    },
+    {
+      "id": "proxy-pass-2",
+      "upstream-id": "upstream-static-service-1",
+      "plugin": {
+        "rewrite-path": {
+          "enable": false,
+          "regexp": "/test/sub/(?<segment>.*)",
+          "replacement": "/${segment}"
+        }
+      }
+    },
+    {
+      "id": "proxy-pass-3",
+      "upstream-id": "upstream-static-service-1",
+      "plugin": {
+        "https-degrade-http": true
+      }
+    }
+  ],
+  "upstream": [
+    {
+      "id": "upstream-static-service-1",
+      "discovery": "static-config",
+      "rule-strategy": "round-robin",
+      "nodes": [
+        "http://localhost:8888",
+        "http://localhost:8889"
+      ],
+      "plugin": {}
+    }
+  ],
+  "plugins": {
+    "http-redirect-https": false
+  }
+}

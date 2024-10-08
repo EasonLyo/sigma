@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{errorCode}</title>
+    <style>
+        .center {
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            height: 32px;
+            white-space: nowrap;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            transition: .1s;
+            user-select: none;
+            vertical-align: middle;
+            -webkit-appearance: none;
+            padding: 8px 15px;
+        }
+    </style>
+</head>
+<body class="center">
+<svg t="1726051111686" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8114"
+     width="256" height="256">
+    <path d="M682.666667 682.666667h-238.506667l140.8-140.373334a42.666667 42.666667 0 0 0 0-60.586666L444.16 341.333333H682.666667a42.666667 42.666667 0 0 0 0-85.333333H341.333333a42.666667 42.666667 0 0 0-39.253333 26.453333 42.666667 42.666667 0 0 0 8.96 46.506667l183.466667 183.04-183.466667 183.04a42.666667 42.666667 0 0 0-8.96 46.506667A42.666667 42.666667 0 0 0 341.333333 768h341.333334a42.666667 42.666667 0 0 0 0-85.333333z"
+          p-id="8115"></path>
+</svg>
+<h2 style="font-size: large">{errorMessage}</h2>
+<ul id="stacktrace">{stackTrace}</ul>
+<button class="button" onclick="window.history.back();">BACK</button>
+</body>
+</html>
