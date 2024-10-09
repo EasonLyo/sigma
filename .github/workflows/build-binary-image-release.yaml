@@ -32,26 +32,27 @@ jobs:
         if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
         run: |
           echo "test" > ./CHANGELOG.txt
-          tar -zvcf ./target/package/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./CHANGELOG.txt
+#          tar -zvcf ./target/package/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./CHANGELOG.txt
+          tar -zvcf ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./CHANGELOG.txt
 
       - name: Zip package on windows.
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           echo "test" > ./CHANGELOG.txt
-          7z a ./target/package/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./CHANGELOG.txt
+          7z a ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./CHANGELOG.txt
 
       - name: Upload package.
         uses: actions/upload-artifact@v4
         with:
           name: sigma-${{ matrix.os }}
-          path: ./target/package/sigma*
+          path: ./sigma*
 
       - name: Create release.
         uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.txt
           files: |
-            ./target/package/sigma*
+            ./sigma*
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.GH_TOKEN }}
