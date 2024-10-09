@@ -42,7 +42,7 @@ jobs:
       - name: Create release.
         uses: softprops/action-gh-release@v2
         with:
-          body_path: ${{ github.workspace }}-CHANGELOG.txt
+          body_path: CHANGELOG.txt
           files: |
             ./target/binary/sigma*
             ./target/classes/sigma.json
