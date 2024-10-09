@@ -51,8 +51,8 @@ jobs:
         with:
           body_path: CHANGELOG.txt
           files: |
-            ./target/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
-            ./target/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
+            ./bin/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
+            ./bin/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.GH_TOKEN }}
