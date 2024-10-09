@@ -25,8 +25,8 @@ jobs:
           native-image-job-reports: 'true'
           cache: maven
 
-      #      - name: Build with Maven.
-      #        run: mvn -Pnative -DskipTests package
+      - name: Build with Maven.
+        run: mvn -DskipTests package
 
       - name: Tar package on Unix.
         if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
