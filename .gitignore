@@ -187,4 +187,6 @@ nbdist/
 ### cart ###
 *.pem
 ### cashe ###
-cache/
+cache/*
+backup/*
+log/*
