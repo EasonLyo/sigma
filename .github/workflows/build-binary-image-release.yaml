@@ -25,30 +25,38 @@ jobs:
           native-image-job-reports: 'true'
           cache: maven
 
-      - name: Env Check.
+#      - name: Build with Maven.
+#        run: mvn -Pnative -DskipTests package
+
+      - name: Tar package on Unix.
+        if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
         run: |
-          echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+          tar -zvcf ./target/package/sigma_v${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./CHANGELOG.txt
 
-      - name: Build with Maven.
-        run: mvn -Pnative -DskipTests package
+      - name: Zip package on windows.
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          7z a ./target/package/sigma_v${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./CHANGELOG.txt
 
-      - name: Upload binary.
+      - name: Upload package.
         uses: actions/upload-artifact@v4
         with:
           name: sigma-${{ matrix.os }}
           path: | 
-            ./target/binary/sigma*
-            ./target/classes/sigma.json
-            ./target/classes/options.json
+#            ./target/binary/sigma*
+#            ./target/classes/sigma.json
+#            ./target/classes/options.json
+            ./target/package/sigma*
 
       - name: Create release.
         uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.txt
           files: |
-            ./target/binary/sigma*
-            ./target/classes/sigma.json
-            ./target/classes/options.json
+#            ./target/binary/sigma*
+#            ./target/classes/sigma.json
+#            ./target/classes/options.json
+            ./target/package/sigma*
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.GH_TOKEN }}
