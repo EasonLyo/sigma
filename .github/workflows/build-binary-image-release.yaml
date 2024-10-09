@@ -25,14 +25,13 @@ jobs:
           native-image-job-reports: 'true'
           cache: maven
 
-#      - name: Build with Maven.
-#        run: mvn -Pnative -DskipTests package
+      #      - name: Build with Maven.
+      #        run: mvn -Pnative -DskipTests package
 
       - name: Tar package on Unix.
         if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
         run: |
-          echo "test" > ./CHANGELOG.txt
-#          tar -zvcf ./target/package/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./CHANGELOG.txt
+          echo "test" > ./CHANGELOG.txt 
           tar -zvcf ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./CHANGELOG.txt
 
       - name: Zip package on windows.
@@ -51,8 +50,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.txt
-          files: |
-            ./sigma*
+          files: ./sigma*
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.GH_TOKEN }}
