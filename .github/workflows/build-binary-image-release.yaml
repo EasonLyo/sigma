@@ -27,7 +27,7 @@ jobs:
 
       - name: Build with Maven.
         run: |
-          run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+          echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
           mvn -Pnative -DskipTests package
 
       - name: Upload binary.
