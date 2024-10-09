@@ -8,6 +8,47 @@
   <artifactId>sigma</artifactId>
   <version>0.1.0-alpha</version>
 
+  <description>A high performances API gateway based on Vertx(Netty), can execute on native image.</description>
+  <url>https://www.oooops.net</url>
+
+  <developers>
+    <developer>
+      <id>main</id>
+      <name>Easonlyo</name>
+      <url />
+      <roles>
+        <role>Project Manager</role>
+        <role>Architect</role>
+      </roles>
+      <organization>no</organization>
+      <organizationUrl>null</organizationUrl>
+      <properties>
+        <dept>No</dept>
+      </properties>
+      <timezone>+8</timezone>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name />
+      <email />
+      <url />
+      <organization />
+      <organizationUrl />
+      <roles />
+      <timezone />
+      <properties />
+    </contributor>
+  </contributors>
+
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -30,6 +71,41 @@
   </properties>
 
   <profiles>
+    <profile>
+      <id>native</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <version>${graal.plugin.version}</version>   <!--(1)-->
+            <extensions>true</extensions>
+            <executions>
+              <execution>
+                <id>build-native</id>
+                <goals>
+                  <goal>compile-no-fork</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <skip>false</skip>
+              <imageName>${project.name}</imageName>    <!--(2)-->
+              <mainClass>${launcher.class}</mainClass>  <!--(3)-->
+              <fallback>false</fallback>
+              <buildArgs>
+                <buildArg>--no-fallback</buildArg>
+                <buildArg>-H:+PrintClassInitialization</buildArg>
+                <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+<!--                <buildArg>-H:IncludeResources=logback.xml.bak</buildArg>-->
+              </buildArgs> <!--(4)-->
+              <outputDirectory>${project.build.directory}/binary/</outputDirectory>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>linux</id>
       <activation>
@@ -219,37 +295,11 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>${exec-maven-plugin.version}</version>
         <configuration>
-          <mainClass>io.vertx.core.Launcher</mainClass>
+          <mainClass>${launcher.class}</mainClass>
           <arguments>
             <argument>run</argument>
             <argument>${main.verticle}</argument>
           </arguments>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.graalvm.buildtools</groupId>
-        <artifactId>native-maven-plugin</artifactId>
-        <version>${graal.plugin.version}</version>   <!--(1)-->
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <id>build-native</id>
-            <goals>
-              <goal>build</goal>
-            </goals>
-            <phase>package</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <skip>false</skip>
-          <imageName>${project.name}</imageName>    <!--(2)-->
-          <mainClass>${launcher.class}</mainClass>  <!--(3)-->
-          <buildArgs>
-            <buildArg>--no-fallback</buildArg>
-            <buildArg>-H:+PrintClassInitialization</buildArg>
-            <buildArg>-H:+ReportExceptionStackTraces</buildArg>
-            <!--<buildArg>-H:IncludeResources=logback.xml.bak</buildArg>-->
-          </buildArgs> <!--(4)-->
         </configuration>
       </plugin>
       <plugin>

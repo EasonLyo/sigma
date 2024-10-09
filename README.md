@@ -1,6 +1,6 @@
 # High Performance API Gateway
 
-A high performance API gateway based on Vertx(Netty).
+A high performances API gateway based on Vertx(Netty), can execute on native image.
 
 # Feature List
 
