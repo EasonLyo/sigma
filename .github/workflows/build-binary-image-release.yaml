@@ -48,4 +48,4 @@ jobs:
             ./target/classes/options.json
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
