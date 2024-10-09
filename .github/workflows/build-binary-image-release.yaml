@@ -26,31 +26,33 @@ jobs:
           cache: maven
 
       - name: Build with Maven.
-        run: mvn -DskipTests package
+        run: mvn -Pnative -DskipTests package
 
       - name: Tar package on Unix.
         if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
         run: |
-          echo "test" > ./CHANGELOG.txt 
-          tar -zvcf ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./CHANGELOG.txt
+          tar -zvcf ./target/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./target/binary/sigma* ./options.json ./sigma.json
 
       - name: Zip package on windows.
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          echo "test" > ./CHANGELOG.txt
-          7z a ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./CHANGELOG.txt
+          7z a ./target/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./target/binary/sigma* ./options.json ./sigma.json
 
       - name: Upload package.
         uses: actions/upload-artifact@v4
         with:
           name: sigma-${{ matrix.os }}
-          path: ./sigma*
+          path: |
+            ./target/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
+            ./target/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
 
       - name: Create release.
         uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.txt
-          files: ./sigma*
+          files: |
+            ./target/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
+            ./target/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.GH_TOKEN }}
