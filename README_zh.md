@@ -31,7 +31,7 @@ Apple M1 Pro(10 vCPUs, 16 GB memory)
 
 ## QPS
 
-因为M1 pro的CPU架构,没有超线程技术,所以,本次测试使用4个核心给wrk,4个核心给sigma反向代理服务,2个cpu给下游服务,下游服务仅返回一个简单的JSON:
+因为M1 pro的CPU架构,没有超线程技术,所以,本次测试使用4个核心给wrk,4个核心给sigma反向代理服务,2个核心给下游服务,下游服务仅返回一个简单的JSON:
 
 ```json
 {
