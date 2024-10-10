@@ -33,7 +33,7 @@ Only use sigma as the reverse proxy server,include path rewrite plugin,with no l
 
 ## QPS
 
-Because of M1 Pro CPU arch , it dont have Hyper-Threading tech, so, The test use 4 cpu for wrk, 4 cpu for nginx or sigma reverse proxy, and 1 cpu for upstream, upstream is only return a simple json response:
+Because of M1 Pro CPU arch , it dont have Hyper-Threading tech, so, The test use 4 core for wrk, 4 core for nginx or sigma reverse proxy, and 2 core for upstream, upstream is only return a simple json response:
 
 ```json
 {
@@ -41,6 +41,20 @@ Because of M1 Pro CPU arch , it dont have Hyper-Threading tech, so, The test use
   "msg": "success",
   "data": null
 }
+```
+### Upstream(on port 8888 and 8889)
+
+```wiki
+~ % wrk -t8 -c2000 -d30s http://localhost:8888
+Running 30s test @ http://localhost:8888
+  8 threads and 2000 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.60ms    2.70ms 129.17ms   95.30%
+    Req/Sec    17.01k     5.87k   31.22k    68.83%
+  4070138 requests in 30.09s, 322.17MB read
+  Socket errors: connect 1756, read 161, write 0, timeout 0
+Requests/sec: 135264.76
+Transfer/sec:     10.71MB
 ```
 
 ### Nginx(on port 8081):
@@ -73,4 +87,8 @@ Running 1m test @ http://localhost/test/benchmark
 Requests/sec:  68079.91
 Transfer/sec:     10.91MB
 ```
+> Sigma is just a little bit faster than Nginx in some situation, but it's still very fast and we have a lot of room to improve.
 
+# Contributing
+
+We welcome contributions to Sigma! If you have any ideas, suggestions, or bug reports, please feel free to open an issue or submit a pull request.

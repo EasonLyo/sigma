@@ -90,7 +90,7 @@ public class SigmaLogbackConfiguration extends ContextAwareBase implements Confi
 
         // TODO 获取环境变量以及根据环境进行日志输出
         Logger rootLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
-        rootLogger.setLevel(Level.DEBUG);
+        rootLogger.setLevel(Level.INFO);
         rootLogger.addAppender(asyncConsole);
         rootLogger.addAppender(asyncFile);
 

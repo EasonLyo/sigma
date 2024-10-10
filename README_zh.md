@@ -31,7 +31,7 @@ Apple M1 Pro(10 vCPUs, 16 GB memory)
 
 ## QPS
 
-因为M1 pro的CPU架构,没有超线程技术,所以,本次测试使用4个核心给wrk,4个核心给sigma反向代理服务,1个cpu给下游服务,下游服务仅返回一个简单的JSON:
+因为M1 pro的CPU架构,没有超线程技术,所以,本次测试使用4个核心给wrk,4个核心给sigma反向代理服务,2个cpu给下游服务,下游服务仅返回一个简单的JSON:
 
 ```json
 {
@@ -39,6 +39,21 @@ Apple M1 Pro(10 vCPUs, 16 GB memory)
   "msg": "success",
   "data": null
 }
+```
+
+### Upstream(在8888和8889端口)
+
+```wiki
+~ % wrk -t8 -c2000 -d30s http://localhost:8888
+Running 30s test @ http://localhost:8888
+  8 threads and 2000 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.60ms    2.70ms 129.17ms   95.30%
+    Req/Sec    17.01k     5.87k   31.22k    68.83%
+  4070138 requests in 30.09s, 322.17MB read
+  Socket errors: connect 1756, read 161, write 0, timeout 0
+Requests/sec: 135264.76
+Transfer/sec:     10.71MB
 ```
 
 ### Nginx(在8081端口):
@@ -72,3 +87,8 @@ Requests/sec:  68079.91
 Transfer/sec:     10.91MB
 ```
 
+> 尽管Sigma只在一些场景下性能表现比Nginx要略好一些,但是它仍然非常快而且有很大的改进空间.
+
+# 贡献
+
+我们欢迎为Sigma做出贡献！如果您有任何idea、suggestion或bug reports，请随时open issue或提交pull request。
