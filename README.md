@@ -15,7 +15,7 @@ A high performances API gateway based on Vertx(Netty), can execute on native ima
 
 # Roadmap
 
-![ROADMAP](./image/SIGMA-ROADMAP.png)
+![ROADMAP](./image/SIGMA-ROADMAP-V0.1.0-ALPHA.png)
 
 # Milestone
 

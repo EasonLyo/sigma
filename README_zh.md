@@ -13,7 +13,7 @@
 
 # 路线图
 
-![ROADMAP](./image/SIGMA-ROADMAP.png)
+![ROADMAP](./image/SIGMA-ROADMAP-V0.1.0-ALPHA.png)
 
 # 里程碑
 
