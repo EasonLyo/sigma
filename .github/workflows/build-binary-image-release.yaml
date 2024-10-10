@@ -31,28 +31,28 @@ jobs:
       - name: Tar package on Unix.
         if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' }}
         run: |
-          tar -zvcf ./bin/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./bin/sigma* ./options.json ./sigma.json
+          tar -zvcf ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./sigma ./options.json ./sigma.json
 
       - name: Zip package on windows.
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          7z a ./bin/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./bin/sigma* ./options.json ./sigma.json
+          7z a ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./sigma.exe ./options.json ./sigma.json
 
       - name: Upload package.
         uses: actions/upload-artifact@v4
         with:
           name: sigma-${{ matrix.os }}
           path: |
-            ./bin/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
-            ./bin/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
+            ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
+            ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
 
       - name: Create release.
         uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.txt
           files: |
-            ./bin/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
-            ./bin/sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
+            ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
+            ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.GH_TOKEN }}

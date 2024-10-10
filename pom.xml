@@ -101,7 +101,7 @@
 <!--                <buildArg>-H:IncludeResources=logback.xml.bak</buildArg>-->
               </buildArgs> <!--(4)-->
 <!--              <outputDirectory>${project.build.directory}/binary/</outputDirectory>-->
-              <outputDirectory>${project.basedir}/bin/</outputDirectory>
+              <outputDirectory>${project.basedir}/</outputDirectory>
             </configuration>
           </plugin>
         </plugins>
