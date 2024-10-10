@@ -1,10 +1,8 @@
 # SIGMA
 
-👆[中文文档](./README_zh.md)
+一个基于Vertx(netty)的高性能网关,可以以二进制文件执行.
 
-A high performances API gateway based on Vertx(Netty), can execute on native image.
-
-# Feature List
+# 功能列表
 
 1. **Route**
 2. **Upstream**
@@ -13,27 +11,27 @@ A high performances API gateway based on Vertx(Netty), can execute on native ima
 
 5. **plugin**
 
-# Roadmap
+# 路线图
 
 ![ROADMAP](./image/SIGMA-ROADMAP.png)
 
-# Milestone
+# 里程碑
 
 - 2024-10-08 the version 0.1.0-alpha is done.
 
-# Benchmark
+# 基准测试
 
-## Benchmark Environments
+## 测试环境
 
 Apple M1 Pro(10 vCPUs, 16 GB memory)
 
-## Benchmark Test for reverse proxy
+## 反向代理测试
 
-Only use sigma as the reverse proxy server,include path rewrite plugin,with no logging,or other plugins enabled.
+仅使用Sigma作为反向代理服务,含路由改写插件,不使用日志打印和其他插件.
 
 ## QPS
 
-Because of M1 Pro CPU arch , it dont have Hyper-Threading tech, so, The test use 4 cpu for wrk, 4 cpu for nginx or sigma reverse proxy, and 1 cpu for upstream, upstream is only return a simple json response:
+因为M1 pro的CPU架构,没有超线程技术,所以,本次测试使用4个核心给wrk,4个核心给sigma反向代理服务,1个cpu给下游服务,下游服务仅返回一个简单的JSON:
 
 ```json
 {
@@ -43,7 +41,7 @@ Because of M1 Pro CPU arch , it dont have Hyper-Threading tech, so, The test use
 }
 ```
 
-### Nginx(on port 8081):
+### Nginx(在8081端口):
 
 ```wiki
 ~ % wrk -t8 -c2000 -d1m http://localhost:8081
@@ -59,7 +57,7 @@ Requests/sec:  65119.80
 Transfer/sec:      9.13MB
 ```
 
-### Sigma(on port 80, path rewrite /test/* to /):
+### Sigma(在80端口,路由改写 /test/* 为 /):
 
 ```wiki
 ~ % wrk -t8 -c2000 -d1m http://localhost/test/benchmark   
