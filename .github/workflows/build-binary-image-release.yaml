@@ -29,7 +29,7 @@ jobs:
         run: mvn -Pnative -DskipTests package
 
       - name: Tar package on Unix.
-        if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' || macos-latest-large}}
+        if: ${{ matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest-large'}}
         run: |
           tar -zvcf ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./sigma ./options.json ./sigma.json
 
