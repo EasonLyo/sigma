@@ -87,7 +87,7 @@ Running 1m test @ http://localhost/test/benchmark
 Requests/sec:  68079.91
 Transfer/sec:     10.91MB
 ```
-> Sigma is just a little bit faster than Nginx in some situation, but it's still very fast and we have a lot of room to improve.
+Sigma is just a little bit faster than Nginx in some situation, but it's still very fast and we have a lot of room to improve.
 
 # Contributing
 
