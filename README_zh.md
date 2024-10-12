@@ -29,8 +29,7 @@ Vertx是一个非常优秀的异步网络框架，它提供了众多开箱即用
 
 > Vertx可以在BSD(OSX)和Linux系统上使用native transports运行(可用时)，与基于NIO的传输相比，这些JNI传输添加了特定于特定平台的功能，产生的垃圾更少，通常可以提高性能。
 
-**Sigma借助Native transport提高了数据传输速度，当然，它只能作用于部分Linux和BSD系统上，好在大部分的服务都运行在这些系统上。
-**
+**Sigma借助Native transport提高了数据传输速度，当然，它只能作用于部分Linux和BSD系统上，好在大部分的服务都运行在这些系统上。**
 
 ### [GraalVM native image](https://www.graalvm.org/latest/reference-manual/native-image/)
 
