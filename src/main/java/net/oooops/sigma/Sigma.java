@@ -24,7 +24,7 @@ import net.oooops.sigma.core.option.SigmaOptionHelper;
 import net.oooops.sigma.core.platform.ServerVersionHandler;
 import net.oooops.sigma.core.platform.impl.SigmaErrorHandlerImpl;
 import net.oooops.sigma.core.plugin.PathRewriteProxyInterceptor;
-import net.oooops.sigma.core.plugin.RedirectHandler;
+import net.oooops.sigma.core.plugin.HttpRedirectHttpsHandler;
 
 import java.util.List;
 import java.util.Locale;
@@ -155,7 +155,7 @@ public class Sigma extends AbstractVerticle {
         // 创建网关服务器
         HttpServer httpServer = vertx.createHttpServer(httpServerOptions);
         if (config.getPlugins() != null && config.getPlugins().isHttpRedirectHttps()) {
-            httpServer.requestHandler(new RedirectHandler());
+            httpServer.requestHandler(new HttpRedirectHttpsHandler());
             LOG.warn("All http request will redirect to Https, all config of http server is unavailable.");
         } else {
             if (config.getProxyServer().getHttp().getPlugin().getStaticResources().isEnable()) {

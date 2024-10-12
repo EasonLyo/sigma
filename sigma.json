@@ -8,7 +8,7 @@
       "plugin": {
         "static-resources": {
           "enable": false,
-          "root-path": "/Users/liuyc/Documents/sigma/src/main/resources"
+          "root-path": "/etc/static"
         },
         "gzip": {
           "enable": false,
@@ -26,13 +26,13 @@
       "port": 443,
       "ssl": {
         "type": "pem",
-        "keyPath": "/Users/liuyc/Documents/sigma/cart/localhost+2-key.pem",
-        "certPath": "/Users/liuyc/Documents/sigma/cart/localhost+2.pem"
+        "keyPath": "?",
+        "certPath": "?"
       },
       "plugin": {
         "static-resources": {
           "enable": false,
-          "root-path": "/Users/liuyc/Documents/sigma/src/main/resources"
+          "root-path": "/etc/static"
         },
         "gzip": {
           "enable": false,

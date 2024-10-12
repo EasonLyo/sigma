@@ -1,13 +1,12 @@
 package net.oooops.sigma.core.plugin;
 
-import com.google.common.base.Strings;
 import io.netty.handler.codec.http.HttpScheme;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 
-public class RedirectHandler implements Handler<HttpServerRequest> {
+public class HttpRedirectHttpsHandler implements Handler<HttpServerRequest> {
 
     @Override
     public void handle(HttpServerRequest req) {

@@ -211,12 +211,12 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
     </dependency>
-    <!--linux high I/O performance scalable interface for fully asynchronous Linux sys calls: io_uring: https://vertx.io/docs/vertx-io_uring-incubator/java/-->
+    <!--linux high I/O performance scalable interface for fully asynchronous Linux sys calls: io_uring: https://vertx.io/docs/vertx-io_uring-incubator/java/ -->
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-io_uring-incubator</artifactId>
     </dependency>
-    <!--Native BSD Transport: https://vertx.io/docs/vertx-core/java/#_native_transports-->
+    <!--Native BSD Transport: https://vertx.io/docs/vertx-core/java/#_native_transports -->
     <!--Native Transport: https://netty.io/wiki/native-transports.html-->
     <dependency>
       <groupId>org.graalvm.sdk</groupId>

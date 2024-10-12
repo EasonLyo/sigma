@@ -2,36 +2,87 @@
 
 👆[中文文档](./README_zh.md)
 
-A high performances API gateway based on Vertx(Netty), can execute on native image.
+##  Introduction
 
-# Feature List
+Sigma is a high performances API gateway based on Vertx(Netty), can execute on native image.
+
+### [Based on vertx](https://vertx.io/)
+Vertx is a reactive web framework on JVM,  it provides many of out-of-the-box feature.
+
+Thanks to the Vertx ecosystem, Sigma can achieve extremely high performance at a minimal cost.
+
+Here is some vertx module sigma module:
+- vertx core
+- vertx web
+- vertx http proxy
+- vertx io_uring
+
+### [Vertx io_uring](https://vertx.io/docs/vertx-io_uring-incubator/java/)
+> The new io_uring interface added to the Linux Kernel 5.1 is a high I/O performance scalable interface for fully asynchronous Linux syscalls.
+
+> Vert.x io_uring is based on Netty io_uring, more details on the GitHub project.
+
+U can see more detail in [Github Project](https://github.com/netty/netty-incubator-transport-io_uring).
+
+**With thd help of Vertx io_uring,sigma have more IO performance.**
+
+### [Native transports](https://netty.io/wiki/native-transports.html)
+
+> Vert.x can run with native transports (when available) on BSD (OSX) and Linux, these JNI transports add features specific to a particular platform, generate less garbage, and generally improve performance when compared to the NIO based transport.
+
+**Sigma has improved data transfer speed with the help of Native Transport, although it can only work on some Linux and BSD systems, fortunately most services run on these systems.**
+
+### [GraalVM native image](https://www.graalvm.org/latest/reference-manual/native-image/)
+
+> Native Image is a technology to compile Java code ahead-of-time to a binary—a native executable. A native executable includes only the code required at run time, that is the application classes, standard-library classes, the language runtime, and statically-linked native code from the JDK.
+
+When running applications as native executable files, compared to traditional Java running methods, it will have advantages such as faster startup speed, smaller packaging size, and smaller runtime memory usage.
+
+**Sigma can be executed  as native executable files ,and it will adapt to the cloud native era better.**
+
+**WARNING:**
+
+By checking [GitHub actions runner image](https://github.com/actions/runner-images?tab=readme-ov-file) pre-installed software and [GraalVM Native image prerequisites](https://www.graalvm.org/latest/reference-manual/native-image/#prerequisites) requirements in GitHub actions, we found that the Windows 11 SDK is missing from the windows latest image of Github actions runner. If you need to use Sigma binary files for the Windows platform, please compile them yourself according to the documentation or deploy Sigma using Jar.
+
+### [JAVA virtual thread](https://openjdk.org/jeps/444)
+
+> Virtual threads are not faster threads — they do not run code any faster than platform threads. They exist to provide scale (higher throughput), not speed (lower latency). There can be many more of them than platform threads, so they enable the higher concurrency needed for higher throughput according to Little's Law.
+
+For IO intensive tasks, the load is usually not limited by the CPU, and in this case, even if the number of threads exceeds the number of cores, throughput cannot be improved.
+
+> Virtual threads help to improve the throughput of typical server applications precisely because such applications consist of a great number of concurrent tasks that spend much of their time waiting.
+
+Unlike the OS threading model (which typically manages threads through thread pools to reduce the overhead of creating threads and reusing threads), virtual threads provide higher throughput while not offering lower latency.
+
+**Sigma have a high concurrency performance with the help of Vertx's support for virtual thread.**
+
+## Feature List
 
 1. **Route**
 2. **Upstream**
 3. **reverse-proxy**
 4. **Load balance**
-
 5. **plugin**
 
-# Roadmap
+## Roadmap
 
 ![ROADMAP](./image/SIGMA-ROADMAP-V0.1.0-ALPHA.png)
 
-# Milestone
+## Milestone
 
 - 2024-10-08 the version 0.1.0-alpha is done.
 
-# Benchmark
+## Benchmark
 
-## Benchmark Environments
+### Benchmark Environments
 
 Apple M1 Pro(10 vCPUs, 16 GB memory)
 
-## Benchmark Test for reverse proxy
+### Benchmark Test for reverse proxy
 
 Only use sigma as the reverse proxy server,include path rewrite plugin,with no logging,or other plugins enabled.
 
-## QPS
+### QPS
 
 Because of M1 Pro CPU arch , it dont have Hyper-Threading tech, so, The test use 4 core for wrk, 4 core for nginx or sigma reverse proxy, and 2 core for upstream, upstream is only return a simple json response:
 
@@ -42,7 +93,7 @@ Because of M1 Pro CPU arch , it dont have Hyper-Threading tech, so, The test use
   "data": null
 }
 ```
-### Upstream(on port 8888 and 8889)
+#### Upstream(on port 8888 and 8889)
 
 ```wiki
 ~ % wrk -t8 -c2000 -d30s http://localhost:8888
@@ -57,7 +108,7 @@ Requests/sec: 135264.76
 Transfer/sec:     10.71MB
 ```
 
-### Nginx(on port 8081):
+#### Nginx(on port 8081):
 
 ```wiki
 ~ % wrk -t8 -c2000 -d1m http://localhost:8081
@@ -73,7 +124,7 @@ Requests/sec:  65119.80
 Transfer/sec:      9.13MB
 ```
 
-### Sigma(on port 80, path rewrite /test/* to /):
+#### Sigma(on port 80, path rewrite /test/* to /):
 
 ```wiki
 ~ % wrk -t8 -c2000 -d1m http://localhost/test/benchmark   
@@ -89,6 +140,6 @@ Transfer/sec:     10.91MB
 ```
 Sigma is just a little bit faster than Nginx in some situation, but it's still very fast and we have a lot of room to improve.
 
-# Contributing
+## Contributing
 
 We welcome contributions to Sigma! If you have any ideas, suggestions, or bug reports, please feel free to open an issue or submit a pull request.

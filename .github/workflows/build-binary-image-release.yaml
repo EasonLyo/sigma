@@ -1,4 +1,4 @@
-name: SIGMA release with maven use graal VM.
+name: SIGMA release CI.
 
 on:
   create:
@@ -11,7 +11,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-latest, macos-latest-large, windows-latest, ubuntu-latest ]
+#        os: [ macos-latest, macos-latest-large, windows-latest, ubuntu-latest ]
+        os: [ macos-latest, macos-latest-large, ubuntu-latest ]
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
@@ -33,10 +34,10 @@ jobs:
         run: |
           tar -zvcf ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz ./sigma ./options.json ./sigma.json
 
-      - name: Zip package on windows.
-        if: ${{ matrix.os == 'windows-latest' }}
-        run: |
-          7z a ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./sigma.exe ./options.json ./sigma.json
+#      - name: Zip package on windows.
+#        if: ${{ matrix.os == 'windows-latest' }}
+#        run: |
+#          7z a ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip ./sigma.exe ./options.json ./sigma.json
 
       - name: Upload package.
         uses: actions/upload-artifact@v4
@@ -44,7 +45,7 @@ jobs:
           name: sigma-${{ matrix.os }}
           path: |
             ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
-            ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
+#            ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
 
       - name: Create release.
         uses: softprops/action-gh-release@v2
@@ -52,7 +53,5 @@ jobs:
           body_path: CHANGELOG.txt
           files: |
             ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.tar.gz
-            ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
-          # note you'll typically need to create a personal access token
-          # with permissions to create releases in the other repo
+#            ./sigma_${{ github.ref_name }}_${{ runner.os }}_${{ runner.arch }}.zip
           token: ${{ secrets.GH_TOKEN }}
