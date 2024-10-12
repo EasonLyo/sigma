@@ -11,7 +11,7 @@ Vertx is a reactive web framework on JVM,  it provides many of out-of-the-box fe
 
 Thanks to the Vertx ecosystem, Sigma can achieve extremely high performance at a minimal cost.
 
-Here is some vertx module sigma module:
+Here is some vertx module sigma used:
 - vertx core
 - vertx web
 - vertx http proxy
