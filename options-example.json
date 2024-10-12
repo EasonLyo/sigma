@@ -1,0 +1,8 @@
+{
+  "fileSystemOptions": {
+    "classPathResolvingEnabled": true,
+    "fileCachingEnabled": false
+  },
+  "preferNativeTransport": true,
+  "workerPoolSize": 20
+}

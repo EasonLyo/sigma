@@ -64,6 +64,121 @@ Unlike the OS threading model (which typically manages threads through thread po
 4. **Load balance**
 5. **plugin**
 
+## Example Usage
+
+### binary
+To begin, download the latest program for your operating system and architecture from the Release page.
+
+Next, place the sigma binary and configuration file on your server.
+
+Finally, edit the configuration.
+
+#### Access your computer in a LAN network via SSH
+
+##### Step 1 : modify `sigma.json` file.
+
+As we can see, it has 5 part to edit. The part of `proxy-server` is a proxy server protocol config, u can just use it by default.
+
+`port: 80`:  means sigma http proxy server will bind on port 80.
+
+```json
+{
+  "proxy-server": {
+    "http": {
+      "id": "http-proxy-server",
+      "server-id": "http-proxy-server",
+      "port": 80
+    }
+  }
+}
+```
+The part of `proxy-client` is a http proxy server config, we don't need to modify except we want to adjust it to improve some performances.  
+```json
+{
+  "proxy-client": {
+    "max-pool-size-per-server": 256
+  }
+}
+```
+The part of router is a main config which decide what request the proxy will handler.
+
+`proxy-server-id`: it config this router is belonged to which proxy server.
+
+`route`: it define an array of http request path to handle.
+
+`proxy-pass-id`: This configuration determines which proxy pass rule it will submit the request to.
+```json
+{
+  "router": [
+    {
+      "id": "router-first",
+      "enable": true,
+      "proxy-server-id": "http-proxy-server",
+      "route": [
+        {
+          "id": "router-first-route-first",
+          "enable": true,
+          "path": "/test/*",
+          "allow-method": [],
+          "consumes": [],
+          "produces": [],
+          "proxy-pass-id": "proxy-pass-1"
+        }
+      ]
+    }
+  ]
+}
+```
+The part of `proxy-pass` is a main config, this configuration determines how to handle requests received by the proxy server.
+
+`upstream-id`: this proxy requst will send to which upsteam.
+
+```json
+{
+  "proxy-pass": [
+    {
+      "id": "proxy-pass-1",
+      "upstream-id": "upstream-static-service-1"
+    }
+  ]
+}
+```
+
+The part of `upstream` is a main config, this configuration define the server discoverty method , load balance rule, and upstream nodes.
+
+This is a simple example, it means we will send proxy request to `http://localhost:8888` by `round-robin`, and the upsteam list is a static config.
+```json
+{
+  "upstream": [
+    {
+      "id": "upstream-static-service-1",
+      "discovery": "static-config",
+      "rule-strategy": "round-robin",
+      "nodes": [
+        "http://localhost:8888"
+      ]
+    }
+  ]
+}
+```
+
+#### step2 : start sigma
+
+```shell
+./sigma run net.oooops.sigma.Sigma -conf ${absolute path of sigma.json file} -options ${${absolute path of options.json file}} -instance 1 
+```
+
+### jar
+
+#### step1
+The step 1 are similar to the binary step 1.
+
+#### 
+
+```shell
+java -jar sigma-vX.X.X-fat.jar ./sigma run net.oooops.sigma.Sigma -conf ${absolute path of sigma.json file} -options ${${absolute path of options.json file}} -instance 1
+```
+
 ## Roadmap
 
 ![ROADMAP](./image/SIGMA-ROADMAP-V0.1.0-ALPHA.png)
