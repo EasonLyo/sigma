@@ -22,9 +22,9 @@ Here is some vertx module sigma used:
 
 > Vert.x io_uring is based on Netty io_uring, more details on the GitHub project.
 
-U can see more detail in [Github Project](https://github.com/netty/netty-incubator-transport-io_uring).
+U can see more detail in [GitHub Project](https://github.com/netty/netty-incubator-transport-io_uring).
 
-**With thd help of Vertx io_uring,sigma have more IO performance.**
+**With thd help of Vertx io_uring,sigma have high IO performance.**
 
 ### [Native transports](https://netty.io/wiki/native-transports.html)
 
