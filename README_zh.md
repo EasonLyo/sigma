@@ -183,20 +183,6 @@ ${absolute path of XXX.json file} 为XXX.json在操作系统的绝对路径
 java -jar sigma-vX.X.X-fat.jar ./sigma run net.oooops.sigma.Sigma -conf ${absolute path of sigma.json file} -options ${${absolute path of options.json file}} -instance 1
 ```
 
-
-### proxy-server
-Sigma代理服务
-
-### proxy-client
-
-### router
-
-### proxy-pass
-
-### upstream
-
-### plugins
-
 ## 路线图
 
 ![ROADMAP](./image/SIGMA-ROADMAP-V0.1.0-ALPHA.png)
