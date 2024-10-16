@@ -7,7 +7,7 @@ public class Http {
 
 	@JsonProperty("plugin")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Plugin plugin;
+	private Plugin plugin = new Plugin();
 
 	@JsonProperty("port")
 	@JsonIgnoreProperties(ignoreUnknown = true)

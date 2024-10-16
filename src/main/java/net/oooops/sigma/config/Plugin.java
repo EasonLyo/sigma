@@ -10,15 +10,15 @@ public class Plugin{
 
 	@JsonProperty("static-resources")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private StaticResources staticResources;
+	private StaticResources staticResources = new StaticResources();
 
 	@JsonProperty("gzip")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Gzip gzip;
+	private Gzip gzip = new Gzip();
 
 	@JsonProperty("csp")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Csp csp;
+	private Csp csp = new Csp();
 
 	@JsonProperty("metadata")
 	@JsonIgnoreProperties(ignoreUnknown = true)
@@ -26,11 +26,11 @@ public class Plugin{
 
 	@JsonProperty("cors")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Cors cors;
+	private Cors cors = new Cors();
 
 	@JsonProperty("log-config")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private logConfig logConfig;
+	private logConfig logConfig = new logConfig();
 
 	@JsonProperty("hsts")
 	@JsonIgnoreProperties(ignoreUnknown = true)
@@ -45,11 +45,11 @@ public class Plugin{
 
 	@JsonProperty("rewrite-path")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private RewritePath rewritePath;
+	private RewritePath rewritePath = new RewritePath();
 
 	@JsonProperty("x-frame")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private String XFrame;
+	private String XFrame = "NONE";
 
 	public void setStaticResources(StaticResources staticResources){
 		this.staticResources = staticResources;

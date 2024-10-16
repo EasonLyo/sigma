@@ -43,7 +43,9 @@ public class SigmaOptionHelper extends HttpClientOptions {
                 .setTcpQuickAck(true)
                 .setReusePort(true);
 
-        if (config.getProxyServer().getHttp().getPlugin().getGzip().isEnable()) {
+        if (config.getProxyServer().getHttp().getPlugin() != null
+                && config.getProxyServer().getHttp().getPlugin().getGzip() != null
+                && config.getProxyServer().getHttp().getPlugin().getGzip().isEnable()) {
             httpServerOptions.setCompressionSupported(true);
             Integer compressionLevel = config.getProxyServer().getHttp().getPlugin().getGzip().getCompressionLevel();
             Integer windowBits = config.getProxyServer().getHttp().getPlugin().getGzip().getWindowBits();
@@ -68,7 +70,7 @@ public class SigmaOptionHelper extends HttpClientOptions {
             throw new IllegalArgumentException("SSL config error, must config SSL, SSL type, SSL KeyPath and SSL certPath!");
         }
 
-        if (config.getProxyServer().getHttps().getPlugin().getGzip().isEnable()) {
+        if (config.getProxyServer().getHttps().getPlugin().getGzip() !=null && config.getProxyServer().getHttps().getPlugin().getGzip().isEnable()) {
             httpServerOptions.setCompressionSupported(true);
             Integer compressionLevel = config.getProxyServer().getHttps().getPlugin().getGzip().getCompressionLevel();
             Integer windowBits = config.getProxyServer().getHttps().getPlugin().getGzip().getWindowBits();

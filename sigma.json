@@ -7,15 +7,14 @@
     }
   },
   "proxy-client": {
-    "max-pool-size-per-server": 256
+    "max-pool-size-per-server": 1024
   },
   "router": [
     {
       "id": "router-first",
       "enable": true,
       "proxy-server-id": "http-proxy-server",
-      "route": [
-        {
+      "route": [{
           "id": "router-first-route-first",
           "enable": true,
           "desc": "a example about route bind on http-proxy-server",
@@ -24,8 +23,7 @@
           "consumes": [],
           "produces": [],
           "proxy-pass-id": "proxy-pass-1"
-        }
-      ]
+        }]
     }
   ],
   "proxy-pass": [
@@ -40,8 +38,7 @@
       "discovery": "static-config",
       "rule-strategy": "round-robin",
       "nodes": [
-        "http://localhost:8888",
-        "http://localhost:8889"
+        "http://localhost:8888"
       ]
     }
   ]

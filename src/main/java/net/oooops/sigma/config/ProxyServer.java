@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ProxyServer{
 
 	@JsonProperty("http")
-	private Http http;
+	private Http http = new Http();
 
 	@JsonProperty("https")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Https https;
+	private Https https = new Https();
 
 	public void setHttp(Http http){
 		this.http = http;
@@ -27,13 +27,4 @@ public class ProxyServer{
 	public Https getHttps(){
 		return https;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"ProxyServer{" + 
-			"http = '" + http + '\'' +
-			",https = '" + https + '\'' +
-			"}";
-		}
 }

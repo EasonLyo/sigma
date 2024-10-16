@@ -7,7 +7,7 @@ public class Https {
 
 	@JsonProperty("plugin")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Plugin plugin;
+	private Plugin plugin = new Plugin();
 
 	@JsonProperty("port")
 	private int port = 443;
@@ -19,7 +19,7 @@ public class Https {
 	private String id;
 
 	@JsonProperty("ssl")
-	private Ssl ssl;
+	private Ssl ssl = new Ssl();
 
 	@JsonProperty("server-id")
 	private String serverId;
@@ -83,18 +83,4 @@ public class Https {
 	public String getDesc(){
 		return desc;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"Https{" + 
-			"plugin = '" + plugin + '\'' + 
-			",port = '" + port + '\'' + 
-			",enable = '" + enable + '\'' + 
-			",id = '" + id + '\'' + 
-			",ssl = '" + ssl + '\'' + 
-			",server-id = '" + serverId + '\'' + 
-			",desc = '" + desc + '\'' + 
-			"}";
-		}
 }

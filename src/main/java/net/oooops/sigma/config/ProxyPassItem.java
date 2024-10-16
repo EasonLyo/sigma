@@ -7,7 +7,7 @@ public class ProxyPassItem{
 
 	@JsonProperty("plugin")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Plugin plugin;
+	private Plugin plugin = new Plugin();
 
 	@JsonProperty("id")
 	private String id;
