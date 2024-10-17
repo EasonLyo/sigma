@@ -28,10 +28,6 @@ public class Plugin{
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	private Cors cors = new Cors();
 
-	@JsonProperty("log-config")
-	@JsonIgnoreProperties(ignoreUnknown = true)
-	private logConfig logConfig = new logConfig();
-
 	@JsonProperty("hsts")
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	private Hsts hsts;
@@ -90,15 +86,7 @@ public class Plugin{
 	public Cors getCors(){
 		return cors;
 	}
-
-	public void setLogConfig(logConfig logConfig){
-		this.logConfig = logConfig;
-	}
-
-	public logConfig getLogConfig(){
-		return logConfig;
-	}
-
+	
 	public void setHsts(Hsts hsts){
 		this.hsts = hsts;
 	}

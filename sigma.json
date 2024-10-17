@@ -41,5 +41,8 @@
         "http://localhost:8888"
       ]
     }
-  ]
+  ],
+  "plugins": {
+    "log-config": false
+  }
 }

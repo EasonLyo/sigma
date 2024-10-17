@@ -176,6 +176,7 @@
     }
   ],
   "plugins": {
-    "http-redirect-https": false
+    "http-redirect-https": false,
+    "log-config": true
   }
 }

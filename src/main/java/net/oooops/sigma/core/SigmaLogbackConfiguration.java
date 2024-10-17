@@ -11,6 +11,7 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.spi.ContextAwareBase;
 import ch.qos.logback.core.status.NopStatusListener;
 import ch.qos.logback.core.util.FileSize;
+import io.vertx.ext.web.handler.impl.LoggerHandlerImpl;
 
 @ConfiguratorRank()
 public class SigmaLogbackConfiguration extends ContextAwareBase implements Configurator {
@@ -49,7 +50,6 @@ public class SigmaLogbackConfiguration extends ContextAwareBase implements Confi
         rfa.setName("file");
         String fileName = STR."\{System.getProperty("user.dir")}/log/sigma.log";
         rfa.setFile(fileName);
-
         // encoder
         LayoutWrappingEncoder<ILoggingEvent> file_encoder = new LayoutWrappingEncoder<>();
         file_encoder.setContext(context);
@@ -61,7 +61,6 @@ public class SigmaLogbackConfiguration extends ContextAwareBase implements Confi
         filePatternLayout.start();
         file_encoder.setLayout(filePatternLayout);
         rfa.setEncoder(file_encoder);
-
         // policy
         SizeAndTimeBasedRollingPolicy<ILoggingEvent> rp = new SizeAndTimeBasedRollingPolicy<>();
         rp.setContext(context);
@@ -75,6 +74,35 @@ public class SigmaLogbackConfiguration extends ContextAwareBase implements Confi
         rfa.setRollingPolicy(rp);
         rfa.start();
 
+        // access_file
+        RollingFileAppender<ILoggingEvent> rfa_access = new RollingFileAppender<>();
+        rfa_access.setContext(context);
+        rfa_access.setName("access_file");
+        String accessFileName = STR."\{System.getProperty("user.dir")}/log/access.log";
+        rfa_access.setFile(accessFileName);
+        // encoder
+        LayoutWrappingEncoder<ILoggingEvent> access_file_encoder = new LayoutWrappingEncoder<>();
+        access_file_encoder.setContext(context);
+        // layout
+        PatternLayout accessFilePatternLayout = new PatternLayout();
+        accessFilePatternLayout.setContext(context);
+        accessFilePatternLayout.setPattern("%msg");
+        accessFilePatternLayout.start();
+        access_file_encoder.setLayout(accessFilePatternLayout);
+        rfa_access.setEncoder(access_file_encoder);
+        // policy
+        SizeAndTimeBasedRollingPolicy<ILoggingEvent> access_file_rp = new SizeAndTimeBasedRollingPolicy<>();
+        access_file_rp.setContext(context);
+        access_file_rp.setFileNamePattern(STR."""
+\{accessFileName}.%d{yyyy-MM-dd}.%i.gz""");
+        access_file_rp.setCleanHistoryOnStart(false);
+        access_file_rp.setMaxFileSize(FileSize.valueOf("10MB"));
+        access_file_rp.setMaxHistory(7);
+        access_file_rp.setParent(rfa_access);
+        access_file_rp.start();
+        rfa_access.setRollingPolicy(access_file_rp);
+        rfa_access.start();
+
         // async
         AsyncAppender asyncConsole = new AsyncAppender();
         asyncConsole.setContext(context);
@@ -87,12 +115,24 @@ public class SigmaLogbackConfiguration extends ContextAwareBase implements Confi
         asyncFile.setName("async_file");
         asyncFile.addAppender(rfa);
         asyncFile.start();
+        // access file
+        AsyncAppender accessFile = new AsyncAppender();
+        accessFile.setContext(context);
+        accessFile.setName("access_file");
+        accessFile.addAppender(rfa_access);
+        accessFile.start();
 
         // TODO 获取环境变量以及根据环境进行日志输出
         Logger rootLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
         rootLogger.setLevel(Level.INFO);
         rootLogger.addAppender(asyncConsole);
         rootLogger.addAppender(asyncFile);
+
+        // access log
+        Logger accessFileLog = loggerContext.getLogger(LoggerHandlerImpl.class);
+        accessFileLog.setLevel(Level.INFO);
+        accessFileLog.setAdditive(false);
+        accessFileLog.addAppender(accessFile);
 
         // let the caller decide
         return ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY;

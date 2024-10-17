@@ -20,7 +20,7 @@ public class SigmaConfiguration {
 
 	@JsonProperty("plugins")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Plugins plugins;
+	private Plugins plugins = new Plugins();
 
 	@JsonProperty("proxy-client")
 	@JsonIgnoreProperties(ignoreUnknown = true)
@@ -73,17 +73,4 @@ public class SigmaConfiguration {
 	public ProxyClient getProxyClient(){
 		return proxyClient;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"SigmaOption{" + 
-			"router = '" + router + '\'' + 
-			",proxy-pass = '" + proxyPass + '\'' + 
-			",upstream = '" + upstream + '\'' + 
-			",proxy-server = '" + proxyServer + '\'' + 
-			",plugins = '" + plugins + '\'' + 
-			",proxy-client = '" + proxyClient + '\'' + 
-			"}";
-		}
 }

@@ -88,8 +88,7 @@ public class Sigma extends AbstractVerticle {
                 SigmaErrorHandlerImpl errorHandler = new SigmaErrorHandlerImpl(vertx, "templates/web-error.html", false);
                 SigmaErrorhandler.init(router, errorHandler);
                 // 路由配置
-                if (routerItem.getPlugin().getLogConfig() != null && routerItem.getPlugin().getLogConfig().isEnable()) {
-                    logConfig logConfig = routerItem.getPlugin().getLogConfig();
+                if (config.getPlugins() != null && config.getPlugins().isLogConfig()) {
                     // todo 配置日志文件位置
                     LoggerHandler loggerHandler = LoggerHandler.create(LoggerFormat.CUSTOM);
                     loggerHandler.customFormatter(new SigmaHTTPLoggerFormatter());

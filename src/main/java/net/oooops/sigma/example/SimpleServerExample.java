@@ -3,12 +3,8 @@ package net.oooops.sigma.example;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServerOptions;
-import io.vertx.core.http.impl.Http1xServerRequestHandler;
 import io.vertx.core.http.impl.MimeMapping;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.Router;
-import io.vertx.ext.web.handler.LoggerHandler;
-import io.vertx.ext.web.proxy.handler.ProxyHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
