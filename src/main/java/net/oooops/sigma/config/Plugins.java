@@ -7,7 +7,7 @@ public class Plugins{
 	@JsonProperty("http-redirect-https")
 	private boolean httpRedirectHttps;
 
-	@JsonProperty("http-redirect-https")
+	@JsonProperty("log-config")
 	private boolean logConfig;
 
 	public void setHttpRedirectHttps(boolean httpRedirectHttps){
