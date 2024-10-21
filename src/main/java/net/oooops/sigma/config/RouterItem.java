@@ -18,7 +18,7 @@ public class RouterItem{
 
 	@JsonProperty("plugin")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Plugin plugin;
+	private Plugin plugin = new Plugin();
 
 	@JsonProperty("proxy-server-id")
 	private String proxyServerId;
