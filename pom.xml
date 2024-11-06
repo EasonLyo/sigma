@@ -200,6 +200,11 @@
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web-proxy</artifactId>
     </dependency>
+    <!--cluster-->
+    <!--<dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-hazelcast</artifactId>
+    </dependency>-->
     <!--yaml-->
     <dependency>
       <groupId>org.yaml</groupId>

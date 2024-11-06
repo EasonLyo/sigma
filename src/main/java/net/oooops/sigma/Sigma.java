@@ -23,7 +23,7 @@ import net.oooops.sigma.core.loadbalance.StaticUpstreamLoadBalancer;
 import net.oooops.sigma.core.option.SigmaOptionHelper;
 import net.oooops.sigma.core.platform.ServerVersionHandler;
 import net.oooops.sigma.core.platform.impl.SigmaErrorHandlerImpl;
-import net.oooops.sigma.core.platform.impl.SigmaHTTPLoggerFormatter;
+import net.oooops.sigma.core.platform.impl.AccessLoggerFormatter;
 import net.oooops.sigma.core.plugin.PathRewriteProxyInterceptor;
 import net.oooops.sigma.core.plugin.HttpRedirectHttpsHandler;
 
@@ -91,7 +91,7 @@ public class Sigma extends AbstractVerticle {
                 if (config.getPlugins() != null && config.getPlugins().isLogConfig()) {
                     // todo 配置日志文件位置
                     LoggerHandler loggerHandler = LoggerHandler.create(LoggerFormat.CUSTOM);
-                    loggerHandler.customFormatter(new SigmaHTTPLoggerFormatter());
+                    loggerHandler.customFormatter(new AccessLoggerFormatter());
                     rootRoute.handler(loggerHandler); // 日志打印
                 }
                 if (routerItem.getAllowForward() != null) {

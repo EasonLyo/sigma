@@ -7,15 +7,20 @@ import io.vertx.core.http.HttpVersion;
 import io.vertx.core.net.SocketAddress;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.LoggerFormatter;
-import io.vertx.ext.web.impl.Utils;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import static com.google.common.net.HttpHeaders.X_FORWARDED_FOR;
 
-public class SigmaHTTPLoggerFormatter implements LoggerFormatter {
+public class AccessLoggerFormatter implements LoggerFormatter {
+
+    public static final ZoneId LocalZoneId = ZoneId.systemDefault();
 
     @Override
     public String format(RoutingContext routingContext, long requestTime) {
-        long timestamp = System.currentTimeMillis();
+        String localTime = DateTimeFormatter.ISO_ZONED_DATE_TIME.format(Instant.ofEpochMilli(System.currentTimeMillis()).atZone(LocalZoneId));
 
         SocketAddress socketAddress = routingContext.request().remoteAddress();
 
@@ -27,7 +32,7 @@ public class SigmaHTTPLoggerFormatter implements LoggerFormatter {
         HttpVersion version = routingContext.request().version();
 
         // immediate = false
-        long contentLength  = routingContext.request().response().bytesWritten();
+        long contentLength = routingContext.request().response().bytesWritten();
 
         String versionFormatted = switch (version) {
             case HTTP_1_0 -> "HTTP/1.0";
@@ -46,7 +51,7 @@ public class SigmaHTTPLoggerFormatter implements LoggerFormatter {
         String xForwardFor = routingContext.request().getHeader(X_FORWARDED_FOR) == null ? "-" : routingContext.request().getHeader(X_FORWARDED_FOR);
 
         String message = STR."""
-                \{remoteAddr}\{remotePort} - [\{Utils.formatRFC1123DateTime(timestamp)}] "\{method.name()} \{uri} \{versionFormatted}" \{status} "\{requestTime}ms" \{contentLength} "\{userAgent}" "\{referrer}" "\{xForwardFor}"
+                \{remoteAddr}\{remotePort} - [\{localTime}] "\{method.name()} \{uri} \{versionFormatted}" \{status} "\{requestTime}ms" \{contentLength} "\{userAgent}" "\{referrer}" "\{xForwardFor}"
                 """;
         return message;
 

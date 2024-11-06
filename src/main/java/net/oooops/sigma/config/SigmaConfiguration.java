@@ -24,7 +24,7 @@ public class SigmaConfiguration {
 
 	@JsonProperty("proxy-client")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private ProxyClient proxyClient;
+	private ProxyClient proxyClient = new ProxyClient();
 
 	public void setRouter(List<RouterItem> router){
 		this.router = router;
