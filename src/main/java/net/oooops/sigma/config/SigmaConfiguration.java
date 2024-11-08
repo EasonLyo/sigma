@@ -1,5 +1,6 @@
 package net.oooops.sigma.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -7,16 +8,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SigmaConfiguration {
 	@JsonProperty("proxy-server")
-	private ProxyServer proxyServer;
+	private ProxyServer proxyServer = new ProxyServer();
 
 	@JsonProperty("proxy-pass")
-	private List<ProxyPassItem> proxyPass;
+	private List<ProxyPassItem> proxyPass = new ArrayList<>();
 
 	@JsonProperty("router")
-	private List<RouterItem> router;
+	private List<RouterItem> router = new ArrayList<>();
 
 	@JsonProperty("upstream")
-	private List<UpstreamItem> upstream;
+	private List<UpstreamItem> upstream = new ArrayList<>();
 
 	@JsonProperty("plugins")
 	@JsonIgnoreProperties(ignoreUnknown = true)

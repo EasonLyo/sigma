@@ -1,5 +1,6 @@
 package net.oooops.sigma.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -11,11 +12,11 @@ public class UpstreamItem{
 	private String ruleStrategy;
 
 	@JsonProperty("nodes")
-	private List<String> nodes;
+	private List<String> nodes = new ArrayList<>();
 
 	@JsonProperty("plugin")
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	private Plugin plugin;
+	private Plugin plugin = new Plugin();
 
 	@JsonProperty("discovery")
 	private String discovery;
@@ -63,15 +64,4 @@ public class UpstreamItem{
 		return id;
 	}
 
-	@Override
- 	public String toString(){
-		return 
-			"UpstreamItem{" + 
-			"rule-strategy = '" + ruleStrategy + '\'' + 
-			",nodes = '" + nodes + '\'' + 
-			",plugin = '" + plugin + '\'' + 
-			",discovery = '" + discovery + '\'' + 
-			",id = '" + id + '\'' + 
-			"}";
-		}
 }

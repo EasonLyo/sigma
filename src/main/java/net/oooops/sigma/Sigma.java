@@ -169,8 +169,8 @@ public class Sigma extends AbstractVerticle {
             }
             // 启动服务
             httpServer.requestHandler(routerList.get(config.getProxyServer().getHttp().getId()));
-            httpServer.exceptionHandler(event -> LOG.error(event.getMessage()));
         }
+        httpServer.exceptionHandler(event -> LOG.error(event.getMessage()));
         httpServer.listen(config.getProxyServer().getHttp().getPort(), server -> {
             if (server.succeeded()) {
                 // TODO 合并服务启动Future,统一回调complete
