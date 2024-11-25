@@ -1,5 +1,7 @@
 # SIGMA
 
+> WARNING: [Eclipse Vert.x 5 candidate 1 released!](https://vertx.io/blog/eclipse-vert-x-5-candidate-1-released/), we plan to upgrade SIGMA vertx version, some method or code will change.
+
 ## 介绍
 
 Sigma是一个基于Vertx(netty)的高性能网关，可以以二进制文件执行，它有如下特性:

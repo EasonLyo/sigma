@@ -2,6 +2,8 @@
 
 👆[中文文档](./README_zh.md)
 
+> WARNING: [Eclipse Vert.x 5 candidate 1 released!](https://vertx.io/blog/eclipse-vert-x-5-candidate-1-released/), we plan to upgrade SIGMA vertx version, some method or code will change.
+
 ##  Introduction
 
 Sigma is a high performances API gateway based on Vertx(Netty), can execute on native image.
