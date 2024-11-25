@@ -16,8 +16,6 @@ import io.vertx.ext.web.handler.impl.LoggerHandlerImpl;
 @ConfiguratorRank()
 public class SigmaLogbackConfiguration extends ContextAwareBase implements Configurator {
 
-    public SigmaLogbackConfiguration() {
-    }
 
     @Override
     public ExecutionStatus configure(LoggerContext loggerContext) {

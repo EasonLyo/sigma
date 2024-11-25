@@ -22,10 +22,10 @@ import net.oooops.sigma.core.loadbalance.Server;
 import net.oooops.sigma.core.loadbalance.StaticUpstreamLoadBalancer;
 import net.oooops.sigma.core.option.SigmaOptionHelper;
 import net.oooops.sigma.core.platform.ServerVersionHandler;
-import net.oooops.sigma.core.platform.impl.SigmaErrorHandlerImpl;
 import net.oooops.sigma.core.platform.impl.AccessLoggerFormatter;
-import net.oooops.sigma.core.plugin.PathRewriteProxyInterceptor;
+import net.oooops.sigma.core.platform.impl.SigmaErrorHandlerImpl;
 import net.oooops.sigma.core.plugin.HttpRedirectHttpsHandler;
+import net.oooops.sigma.core.plugin.PathRewriteProxyInterceptor;
 
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +40,6 @@ public class Sigma extends AbstractVerticle {
     private static final ConcurrentMap<String, HttpProxy> proxyList = Maps.newConcurrentMap();
 
     private static final ConcurrentMap<String, ILoadBalancer> upstreamList = Maps.newConcurrentMap();
-
 
     @Override
     public void start(Promise<Void> startPromise) {
@@ -129,25 +128,26 @@ public class Sigma extends AbstractVerticle {
                     rootRoute.handler(cspHandler);
                 }
                 for (RouteItem routeItem : routerItem.getRoute()) {
-                    if (routeItem.isEnable()) {
-                        Route route = router.route(routeItem.getPath());
-                        if (!routeItem.getAllowMethod().isEmpty()) {
-                            List<HttpMethod> all = HttpMethod.values();
-                            routeItem.getAllowMethod().forEach(item -> {
-                                if (all.stream().anyMatch(method -> method.name().equals(item.toUpperCase(Locale.ROOT)))) {
-                                    HttpMethod method = HttpMethod.valueOf(item.toUpperCase(Locale.ROOT));
-                                    route.method(method);
-                                }
-                            });
-                        }
-                        if (!routeItem.getConsumes().isEmpty()) {
-                            routeItem.getConsumes().forEach(route::consumes);
-                        }
-                        if (!routeItem.getProduces().isEmpty()) {
-                            routeItem.getProduces().forEach(route::produces);
-                        }
-                        HttpProxy httpProxy = proxyList.get(routeItem.getProxyPassId());
-                        route.handler(ProxyHandler.create(httpProxy));
+                    Route route = router.route(routeItem.getPath());
+                    if (!routeItem.getAllowMethod().isEmpty()) {
+                        List<HttpMethod> all = HttpMethod.values();
+                        routeItem.getAllowMethod().forEach(item -> {
+                            if (all.stream().anyMatch(method -> method.name().equals(item.toUpperCase(Locale.ROOT)))) {
+                                HttpMethod method = HttpMethod.valueOf(item.toUpperCase(Locale.ROOT));
+                                route.method(method);
+                            }
+                        });
+                    }
+                    if (!routeItem.getConsumes().isEmpty()) {
+                        routeItem.getConsumes().forEach(route::consumes);
+                    }
+                    if (!routeItem.getProduces().isEmpty()) {
+                        routeItem.getProduces().forEach(route::produces);
+                    }
+                    HttpProxy httpProxy = proxyList.get(routeItem.getProxyPassId());
+                    route.handler(ProxyHandler.create(httpProxy));
+                    if (!routeItem.isEnable()) {
+                        route.disable();
                     }
                 }
                 routerList.put(routerItem.getProxyServerId(), router);
