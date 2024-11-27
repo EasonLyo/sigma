@@ -1,6 +1,6 @@
 # SIGMA
 
-> WARNING: [Eclipse Vert.x 5 candidate 1 released!](https://vertx.io/blog/eclipse-vert-x-5-candidate-1-released/), we plan to upgrade SIGMA vertx version, some method or code will change.
+> 警告: [Eclipse Vert.x 5 candidate 1 released!](https://vertx.io/blog/eclipse-vert-x-5-candidate-1-released/), 我们计划更新vertx版本, 有些方法和代码会发生改变.
 
 ## 介绍
 
